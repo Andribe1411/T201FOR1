@@ -4,5 +4,5 @@
 # Acknowledgements: <ef þú þáðir eða veittir aðstoð þá á það>
 # <að vera tekið fram hér>
 
-tala = int(input("Please write a 4 digit number:"))
-print((tala%100)*100+tala//100)
+tala = int(input("Please write a 4 digit number: "))
+print("The swapped number is:",(tala%100)*100+tala//100)

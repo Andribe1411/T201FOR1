@@ -3,7 +3,8 @@
 # Project: <Æfingarverkefni 1>
 # Acknowledgements: <ef þú þáðir eða veittir aðstoð þá á það>
 # <að vera tekið fram hér>
-sec = int(input("How many seconds?"))
+sec = int(input("How many seconds? "))
+print(sec,"is equal to:")
 min = sec//60
 sec = sec %60
 hr = min//60

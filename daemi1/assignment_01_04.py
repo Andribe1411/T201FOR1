@@ -5,9 +5,9 @@
 # <að vera tekið fram hér>
 import math
 
-a = float(input("Side length a:"))
-b = float(input("Side length b:"))
-c = float(input("Side length c:"))
+a = float(input("Side length a: "))
+b = float(input("Side length b: "))
+c = float(input("Side length c: "))
 s=(a+b+c)/2
 area = math.sqrt(s*(s-a)*(s-b)*(s-c))
-print(area)
+print("The area is:",area)

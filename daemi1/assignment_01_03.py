@@ -4,7 +4,7 @@
 # Acknowledgements: <ef þú þáðir eða veittir aðstoð þá á það>
 # <að vera tekið fram hér>
 
-mm = int(input("How many mm?"))
+mm = int(input("How many mm? "))
 print(mm,"mm is equal to:")
 km = mm // 1000000
 mm = mm%1000000
