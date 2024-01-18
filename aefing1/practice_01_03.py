@@ -5,10 +5,12 @@
 # <að vera tekið fram hér>
 sec = int(input("How many seconds? "))
 print(sec,"is equal to:")
+
 min = sec//60
 sec = sec %60
 hr = min//60
 min = min%60
+
 print("Hours:",hr)
 print("Minutes:",min)
 print("Seconds:",sec)
