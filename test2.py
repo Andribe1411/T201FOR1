@@ -1,2 +1,2 @@
-a = 'ABC'
-print(a,"halló")    
+
+print("\0101")
