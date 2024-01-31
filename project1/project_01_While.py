@@ -4,10 +4,11 @@
 # Acknowledgements: <Fékk vin minn í tölvunafræði til að fara yfir kóðan fyrir python venjur og skipulag>
 
 import random
-#kommenta þetta út til að fá ekki alltaf sömu dæmi:
+#Af kommenta þetta til að fá alltaf sömu tölur:
 random.seed(1234)
 
 #skilgreini teljara
+counter = 1
 correct_counter = 0
 incorrect_counter = 0
 
@@ -17,7 +18,7 @@ print("Hello ",name,", welcome to the multiplication practice!",sep="")
 number_of_questions = int(input("How many questions do you want? "))
 
 
-for x in range(number_of_questions):
+while counter <= number_of_questions:
     #Tek tvær handahófskenndar tölur og margfalda þær saman
     number1 = random.randint(1, 10)
     number2 = random.randint(1, 10) 
@@ -31,9 +32,10 @@ for x in range(number_of_questions):
     else:
         print(f"Sorry, {number1} x {number2} = {correct_answer}")
         incorrect_counter += 1
+    counter += 1
 
 #Reikna stig notanda og prenta viðeigandi texta miðað við niðurstöðu notanda
-if number_of_questions > 0:
+if number_of_questions>0:
     score = int(correct_counter / number_of_questions * 100)
 else:
     score = 0
