@@ -17,14 +17,14 @@ print("Hello ",name,", welcome to the multiplication practice!",sep="")
 number_of_questions = int(input("How many questions do you want? "))
 
 
-for _x in range(number_of_questions):
+for x in range(number_of_questions):
     #Tek tvær handahófskenndar tölur og margfalda þær saman
     number1 = random.randint(1, 10)
     number2 = random.randint(1, 10) 
     correct_answer = number1 * number2      
 
     #Fæ notandan til að giska á svarið og forritið lætur vita ef það er rétt eða rangt
-    answer = int(input(f"What is {number1} x {number2}: "))
+    answer = int(input(f"Q{x+1}: {number1} x {number2} = "))
     if answer == correct_answer:
         print("Correct!")
         correct_counter += 1
