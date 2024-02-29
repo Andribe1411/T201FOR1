@@ -116,7 +116,6 @@ def get_field_list(file, field_number):
 
             if field_values != "-":
                 field_list.append(float(field_values))
-    close_file(file)
     return field_list
 
 
@@ -166,30 +165,35 @@ def print_table(field, list_one, list_two, list_three, list_four, list_five, lis
 def area(file_number):
     file = open_file(file_number)
     area_list = get_field_list(file, AREA_COULUMN)
+    close_file(file_number)
     return area_list
 
 
 def areachange(file_number):
     file = open_file(file_number)
     areachange_list = get_field_list(file, AREACHANGE_COULUMN)
+    close_file(file_number)
     return areachange_list
 
 
 def elongation(file_number):
     file = open_file(file_number)
     elongation_list = get_field_list(file, ELONGATION_COULUMN)
+    close_file(file_number)
     return elongation_list
 
 
 def distance(file_number):
     file = open_file(file_number)
     distance_list = get_field_list(file, DISTANCE_COULUMN)
+    close_file(file_number)
     return distance_list
 
 
 def velocity(file_number):
     file = open_file(file_number)
     velocity_list = get_field_list(file, VELOCITY_COULUMN)
+    close_file(file_number)
     return velocity_list
 
 
