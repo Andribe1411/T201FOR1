@@ -5,9 +5,21 @@
 
 try:
     filename = input('Filename: ')
+    word = input("Word: ")
     input_file = open(filename, 'r')
-    print(input_file.read())
-    input_file.seek(2)
-    print(input_file.read())
+    line_counter = 0
+    word_counter = 0
+    for line in input_file:
+        line_counter +=1
+    
+        if word.lower() in line.lower():
+            word_counter +=1
+    print("Lines:",line_counter)
+    print(f'Lines containing the word "{word.lower()}": {word_counter}')
+
+
+
+
 except:
-    print("File not found")
+    print("Invalid filename")
+
