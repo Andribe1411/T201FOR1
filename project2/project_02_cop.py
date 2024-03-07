@@ -8,9 +8,9 @@
 # Github copilot fyrir endurtekningar
 # og fékk vin í tölvunarfræði til að fara yfir kóðann fyrir python venjur og fasta>
 import statistics
-# FOLDER = "project2/real/"
-FOLDER = "project2/"
-# FOLDER = ""
+FOLDER = "project2/real/"
+#FOLDER = "project2/"
+#FOLDER = ""
 FILE_EXTENSION = ".txt"
 FILE_ONE = "01uM_E6"
 FILE_TWO = "1uM_E9"
@@ -23,7 +23,7 @@ OUTPUT_SPACING = 15
 NUMBER_OF_FILES = 6
 ROUND_VALUE = 3
 
-AREA_COULUMN = 4
+#AREA_COULUMN = 4
 AREACHANGE_COULUMN = 5
 ELONGATION_COULUMN = 6
 DISTANCE_COULUMN = 7
@@ -38,7 +38,6 @@ QUIT_CHOICE = "6"
 
 
 def main():
-    get_column(open_file(FILE_ONE), "Area")
     if check_files():
         menu()
 
@@ -164,18 +163,18 @@ def get_header_lines(file: object) -> int:
                 return header_lines
 
 
-def get_column(file: object, column_name: str) -> int:
+def get_column(column_name: str) -> int:
+    file = open_file(FILE_ONE)
     line_count = 0
     new_line = []
     header_lines = get_header_lines(file)
     for line in file:
-        if line_count == header_lines-1:
-            for x in range(len(line)):
-                new_line.append(line[x].strip('"'))
-
-            for column_number, column in enumerate(new_line):
-                if column == column_name:
-                    return column_number
+        line_count += 1
+        if line_count == header_lines-2:
+            new_line.append(line.split(";"))
+    for column_number, column in enumerate(new_line[0]):
+        if column.strip('"') == column_name:
+            return column_number
 
 
 def get_field_list(file: object, field_number: int) -> list:
@@ -260,36 +259,41 @@ def print_table(field: str, list_one: list, list_two: list, list_three: list, li
 
 
 def area(file_number: str) -> list | None:
+    area_coulumn = get_column("Area")
     if file := open_file(file_number):
-        area_list = get_field_list(file, AREA_COULUMN)
+        area_list = get_field_list(file, area_coulumn)
         close_file(file)
         return area_list
 
 
 def areachange(file_number: str) -> list | None:
+    areachange_coulumn = get_column("Areachange")
     if file := open_file(file_number):
-        areachange_list = get_field_list(file, AREACHANGE_COULUMN)
+        areachange_list = get_field_list(file, areachange_coulumn)
         close_file(file)
         return areachange_list
 
 
 def elongation(file_number: str) -> list | None:
+    elongation_coulumn = get_column("Elongation")
     if file := open_file(file_number):
-        elongation_list = get_field_list(file, ELONGATION_COULUMN)
+        elongation_list = get_field_list(file, elongation_coulumn)
         close_file(file)
         return elongation_list
 
 
 def distance(file_number: str) -> list | None:
+    distance_coulumn = get_column("Distance moved")
     if file := open_file(file_number):
-        distance_list = get_field_list(file, DISTANCE_COULUMN)
+        distance_list = get_field_list(file, distance_coulumn)
         close_file(file)
         return distance_list
 
 
 def velocity(file_number: str) -> list | None:
+    velocity_coulumn = get_column("Velocity")
     if file := open_file(file_number):
-        velocity_list = get_field_list(file, VELOCITY_COULUMN)
+        velocity_list = get_field_list(file, velocity_coulumn)
         close_file(file)
         return velocity_list
 
