@@ -7,10 +7,10 @@
 # ChatGpt fyrir debugging,
 # Github copilot fyrir endurtekningar
 # og fékk vin í tölvunarfræði til að fara yfir kóðann fyrir python venjur og fasta>
-
 import statistics
-
-# skilgreini fasta fyrir skráarnöfn, endingu, og aðra fasta
+# FOLDER = "project2/real/"
+FOLDER = "project2/"
+# FOLDER = ""
 FILE_EXTENSION = ".txt"
 FILE_ONE = "01uM_E6"
 FILE_TWO = "1uM_E9"
@@ -36,14 +36,11 @@ DISTANCE_CHOICE = "4"
 VELOCITY_CHOICE = "5"
 QUIT_CHOICE = "6"
 
-# main fall sem kallar á check_files og menu
-
 
 def main():
-    if check_files() is True:
+    get_column(open_file(FILE_ONE), "Area")
+    if check_files():
         menu()
-
-# fall sem athugar hvort allar skrárnar séu til
 
 
 def check_files() -> bool:
@@ -58,8 +55,6 @@ def check_files() -> bool:
     if all_files_exist is False:
         print("Check if you have the above files and try again")
     return all_files_exist
-
-# fall sem prentar út valmynd og kallar á viðeigandi föll eftir vali
 
 
 def menu():
@@ -89,8 +84,6 @@ def menu():
         else:
             print("Invalid choice")
 
-# fall sem prentar út töflu með upplýsingum um Area dálk
-
 
 def print_area_table():
     file_one_list = area(FILE_ONE)
@@ -101,8 +94,6 @@ def print_area_table():
     file_six_list = area(FILE_SIX)
     print_table("AREA", file_one_list, file_two_list, file_three_list,
                 file_four_list, file_five_list, file_six_list)
-
-# fall sem prentar út töflu með upplýsingum um Areachange dálk
 
 
 def print_areachange_table():
@@ -115,8 +106,6 @@ def print_areachange_table():
     print_table("AREACHANGE", file_one_list, file_two_list,
                 file_three_list, file_four_list, file_five_list, file_six_list)
 
-# fall sem prentar út töflu með upplýsingum um Elongation dálk
-
 
 def print_elongation_table():
     file_one_list = elongation(FILE_ONE)
@@ -127,8 +116,6 @@ def print_elongation_table():
     file_six_list = elongation(FILE_SIX)
     print_table("ELONGATION", file_one_list, file_two_list,
                 file_three_list, file_four_list, file_five_list, file_six_list)
-
-# fall sem prentar út töflu með upplýsingum um Distance dálk
 
 
 def print_distance_table():
@@ -141,8 +128,6 @@ def print_distance_table():
     print_table("DISTANCE MOVED", file_one_list, file_two_list,
                 file_three_list, file_four_list, file_five_list, file_six_list)
 
-# fall sem prentar út töflu með upplýsingum um Velocity dálk
-
 
 def print_velocity_table():
     file_one_list = velocity(FILE_ONE)
@@ -154,48 +139,62 @@ def print_velocity_table():
     print_table("VELOCITY", file_one_list, file_two_list,
                 file_three_list, file_four_list, file_five_list, file_six_list)
 
-# fall sem opnar skrá og skilar henni
-
 
 def open_file(file: str) -> object:
     try:
-        input_file = open(file+FILE_EXTENSION, 'r')
+        input_file = open(FOLDER+file+FILE_EXTENSION, 'r')
         return input_file
     except FileNotFoundError:
         print(f"Can't open the file {file}")
         return None
 
-# fall sem lokar skrá
-
 
 def close_file(file: object) -> None:
     file.close()
 
-# fall sem tekur inn skrá og númer af dálk og skilar lista með gildunum úr dálkinum
+
+def get_header_lines(file: object) -> int:
+    line_count = 0
+    for line in file:
+        line_count += 1
+        line = line.split(";")
+        for y, x in enumerate(line):
+            if "Number of header lines:" in x:
+                header_lines = int(line[y+1].strip('"'))
+                return header_lines
+
+
+def get_column(file: object, column_name: str) -> int:
+    line_count = 0
+    new_line = []
+    header_lines = get_header_lines(file)
+    for line in file:
+        if line_count == header_lines-1:
+            for x in range(len(line)):
+                new_line.append(line[x].strip('"'))
+
+            for column_number, column in enumerate(new_line):
+                if column == column_name:
+                    return column_number
 
 
 def get_field_list(file: object, field_number: int) -> list:
+    header_lines = get_header_lines(file)
     field_list = []
     line_count = 0
     for line in file:
         line_count += 1
         line = line.split(";")
-        if line_count == 1:
-            header_lines = int(line[1].strip('"'))
-        elif line_count > header_lines:
+        if line_count > header_lines:
             field_values = line[field_number].strip('"')
 
             if field_values != "-":
                 field_list.append(float(field_values))
     return field_list
 
-# fall sem tekur inn float gildi og skilar því sem streng af námunduðu gildi sem er right justified
-
 
 def adjust_printing(value: float) -> str:
     return str(round(value, ROUND_VALUE)).rjust(OUTPUT_SPACING)
-
-# föll sem taka inn lista og skila minnsta/mesta/meðaltal/staðalfráviki/fjölda gildi/a í listanum
 
 
 def get_min(field_list: list) -> float:
@@ -216,8 +215,6 @@ def get_stdDev(field_list: list) -> float:
 
 def get_count(field_list: list) -> int:
     return len(field_list)
-
-# fall sem prentar út töflu með upplýsingum úr öllum skránum
 
 
 def print_table(field: str, list_one: list, list_two: list, list_three: list, list_four: list, list_five: list, list_six: list) -> None:
@@ -240,60 +237,62 @@ def print_table(field: str, list_one: list, list_two: list, list_three: list, li
     print(f'{header}{file1}{file2}{file3}{file4}{file5}{file6}')
     print("-"*dash_line_length)
     print(f'{"Minimum".ljust(OUTPUT_SPACING)}', end="")
-    [print(adjust_printing(a_list), end="") for a_list in min_list]
+    for a_list in min_list:
+        print(adjust_printing(a_list), end="")
     print()
     print(f'{"Maximum".ljust(OUTPUT_SPACING)}', end="")
-    [print(adjust_printing(a_list), end="") for a_list in max_list]
+    for a_list in max_list:
+        print(adjust_printing(a_list), end="")
     print()
     print(f'{"Mean".ljust(OUTPUT_SPACING)}', end="")
-    [print(adjust_printing(a_list), end="") for a_list in mean_list]
+    for a_list in mean_list:
+        print(adjust_printing(a_list), end="")
     print()
     print(f'{"StdDev".ljust(OUTPUT_SPACING)}', end="")
-    [print(adjust_printing(a_list), end="") for a_list in stdDev_list]
+    for a_list in stdDev_list:
+        print(adjust_printing(a_list), end="")
     print()
     print(f'{"Count".ljust(OUTPUT_SPACING)}', end="")
-    [print(adjust_printing(a_list), end="") for a_list in count_list]
+    for a_list in count_list:
+        print(adjust_printing(a_list), end="")
     print()
     print("-"*dash_line_length)
 
-# föll sem taka inn skráarnafn og skila lista með gildunum úr viðeigandi dálki
 
-
-def area(file_name: str) -> list | None:
-    if file := open_file(file_name):
+def area(file_number: str) -> list | None:
+    if file := open_file(file_number):
         area_list = get_field_list(file, AREA_COULUMN)
         close_file(file)
         return area_list
 
 
-def areachange(file_name: str) -> list | None:
-    if file := open_file(file_name):
+def areachange(file_number: str) -> list | None:
+    if file := open_file(file_number):
         areachange_list = get_field_list(file, AREACHANGE_COULUMN)
         close_file(file)
         return areachange_list
 
 
-def elongation(file_name: str) -> list | None:
-    if file := open_file(file_name):
+def elongation(file_number: str) -> list | None:
+    if file := open_file(file_number):
         elongation_list = get_field_list(file, ELONGATION_COULUMN)
         close_file(file)
         return elongation_list
 
 
-def distance(file_name: str) -> list | None:
-    if file := open_file(file_name):
+def distance(file_number: str) -> list | None:
+    if file := open_file(file_number):
         distance_list = get_field_list(file, DISTANCE_COULUMN)
         close_file(file)
         return distance_list
 
 
-def velocity(file_name: str) -> list | None:
-    if file := open_file(file_name):
+def velocity(file_number: str) -> list | None:
+    if file := open_file(file_number):
         velocity_list = get_field_list(file, VELOCITY_COULUMN)
         close_file(file)
         return velocity_list
 
 
-# kalla á main fallið
 if __name__ == "__main__":
     main()
