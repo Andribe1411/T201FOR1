@@ -73,59 +73,48 @@ def menu():
         choice = input("Selection: ")
 
         if choice == AREA_CHOICE:
-            print_area_table()
+            print_table("Area")
         elif choice == AREACHANGE_CHOICE:
-            print_areachange_table()
+            print_table("Areachange")
         elif choice == ELONGATION_CHOICE:
-            print_elongation_table()
+            print_table("Elongation")
         elif choice == DISTANCE_CHOICE:
-            print_distance_table()
+            print_table("Distance moved")
         elif choice == VELOCITY_CHOICE:
-            print_velocity_table()
+            print_table("Velocity")
         elif choice == QUIT_CHOICE:
             on = False
         else:
             print("Invalid choice")
 
-# fall sem prentar út töflu með upplýsingum um Area dálk
+# fall sem prentar út töflu með upplýsingum um dálk
 
 
-def print_area_table():
-    area_list = [area(FILE_ONE), area(FILE_TWO), area(
-        FILE_THREE), area(FILE_FOUR), area(FILE_FIVE), area(FILE_SIX)]
-    print_table("AREA", area_list)
+def print_table(field: str):
+    files = [FILE_ONE, FILE_TWO, FILE_THREE, FILE_FOUR, FILE_FIVE, FILE_SIX]
+    stats_functions = [get_min, get_max, get_mean, get_stdDev, get_count]
+    stats_names = ["Minimum", "Maximum", "Mean", "StdDev", "Count"]
+    all_files_data = [get_column_list(file, field) for file in files]
 
-# fall sem prentar út töflu með upplýsingum um Areachange dálk
+    dash_line_length = OUTPUT_SPACING * (len(files) + 1)
+    print("-" * dash_line_length)
 
+    file_names_header = [field.upper().ljust(OUTPUT_SPACING)] + \
+        [filename.rjust(OUTPUT_SPACING) for filename in files]
+    print("".join(file_names_header))
+    print("-" * dash_line_length)
 
-def print_areachange_table():
-    areachange_list = [areachange(FILE_ONE), areachange(FILE_TWO), areachange(
-        FILE_THREE), areachange(FILE_FOUR), areachange(FILE_FIVE), areachange(FILE_SIX)]
-    print_table("AREACHANGE", areachange_list)
+    for i in range(len(stats_names)):
+        stat_name = stats_names[i]
+        stat_function = stats_functions[i]
+        stats_values = [stat_function(all_files_data[j])
+                        for j in range(len(files))]
+        stats_line = [f"{stat_name.ljust(
+            OUTPUT_SPACING)}"] + [adjust_printing(value) for value in stats_values]
+        print("".join(stats_line))
 
-# fall sem prentar út töflu með upplýsingum um Elongation dálk
+    print("-" * dash_line_length)
 
-
-def print_elongation_table():
-    elongation_list = [elongation(FILE_ONE), elongation(FILE_TWO), elongation(
-        FILE_THREE), elongation(FILE_FOUR), elongation(FILE_FIVE), elongation(FILE_SIX)]
-    print_table("ELONGATION", elongation_list)
-
-# fall sem prentar út töflu með upplýsingum um Distance dálk
-
-
-def print_distance_table():
-    distance_list = [distance(FILE_ONE), distance(FILE_TWO), distance(
-        FILE_THREE), distance(FILE_FOUR), distance(FILE_FIVE), distance(FILE_SIX)]
-    print_table("DISTANCE MOVED", distance_list)
-
-# fall sem prentar út töflu með upplýsingum um Velocity dálk
-
-
-def print_velocity_table():
-    velocity_list = [velocity(FILE_ONE), velocity(FILE_TWO), velocity(
-        FILE_THREE), velocity(FILE_FOUR), velocity(FILE_FIVE), velocity(FILE_SIX)]
-    print_table("VELOCITY", velocity_list)
 
 # fall sem opnar skrá og skilar henni
 
@@ -218,80 +207,16 @@ def get_stdDev(field_list: list) -> float:
 def get_count(field_list: list) -> int:
     return len(field_list)
 
-# fall sem prentar út töflu með upplýsingum úr öllum skránum
-
-
-def print_table(field: str, all_files: list) -> None:
-    dash_line_length = OUTPUT_SPACING*(NUMBER_OF_FILES+1)
-    min_list = [get_min(a_list) for a_list in all_files]
-    max_list = [get_max(a_list) for a_list in all_files]
-    mean_list = [get_mean(a_list) for a_list in all_files]
-    stdDev_list = [get_stdDev(a_list) for a_list in all_files]
-    count_list = [get_count(a_list) for a_list in all_files]
-    file_names = [f'{field.ljust(OUTPUT_SPACING)}', f'{FILE_ONE.rjust(OUTPUT_SPACING)}', f'{FILE_TWO.rjust(OUTPUT_SPACING)}',
-                  f'{FILE_THREE.rjust(OUTPUT_SPACING)}', f'{FILE_FOUR.rjust(OUTPUT_SPACING)}', f'{FILE_FIVE.rjust(OUTPUT_SPACING)}', f'{FILE_SIX.rjust(OUTPUT_SPACING)}']
-    print("-"*dash_line_length)
-    [print(a_list, end="") for a_list in file_names]
-    print()
-    print("-"*dash_line_length)
-    print(f'{"Minimum".ljust(OUTPUT_SPACING)}', end="")
-    [print(adjust_printing(a_list), end="") for a_list in min_list]
-    print()
-    print(f'{"Maximum".ljust(OUTPUT_SPACING)}', end="")
-    [print(adjust_printing(a_list), end="") for a_list in max_list]
-    print()
-    print(f'{"Mean".ljust(OUTPUT_SPACING)}', end="")
-    [print(adjust_printing(a_list), end="") for a_list in mean_list]
-    print()
-    print(f'{"StdDev".ljust(OUTPUT_SPACING)}', end="")
-    [print(adjust_printing(a_list), end="") for a_list in stdDev_list]
-    print()
-    print(f'{"Count".ljust(OUTPUT_SPACING)}', end="")
-    [print(adjust_printing(a_list), end="") for a_list in count_list]
-    print()
-    print("-"*dash_line_length)
 
 # föll sem taka inn skráarnafn og skila lista með gildunum úr viðeigandi dálki
 
 
-def area(file_number: str) -> list | None:
-    area_coulumn = get_column("Area")
+def get_column_list(file_number: str, chosen_coulumn) -> list | None:
+    coulumn_number = get_column(chosen_coulumn)
     if file := open_file(file_number):
-        area_list = get_field_list(file, area_coulumn)
+        coulumn_list = get_field_list(file, coulumn_number)
         close_file(file)
-        return area_list
-
-
-def areachange(file_number: str) -> list | None:
-    areachange_coulumn = get_column("Areachange")
-    if file := open_file(file_number):
-        areachange_list = get_field_list(file, areachange_coulumn)
-        close_file(file)
-        return areachange_list
-
-
-def elongation(file_number: str) -> list | None:
-    elongation_coulumn = get_column("Elongation")
-    if file := open_file(file_number):
-        elongation_list = get_field_list(file, elongation_coulumn)
-        close_file(file)
-        return elongation_list
-
-
-def distance(file_number: str) -> list | None:
-    distance_coulumn = get_column("Distance moved")
-    if file := open_file(file_number):
-        distance_list = get_field_list(file, distance_coulumn)
-        close_file(file)
-        return distance_list
-
-
-def velocity(file_number: str) -> list | None:
-    velocity_coulumn = get_column("Velocity")
-    if file := open_file(file_number):
-        velocity_list = get_field_list(file, velocity_coulumn)
-        close_file(file)
-        return velocity_list
+        return coulumn_list
 
 
 # kalla á main fallið
