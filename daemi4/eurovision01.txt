@@ -1,0 +1,12 @@
+Iceland Spain 12
+Iceland UK 10
+Iceland Denmark 6
+Denmark Spain 12
+Denmark UK 10
+Denmark Iceland 6
+Spain UK 12
+Spain Iceland 10
+Spain Denmark 6
+UK Spain 12
+UK Iceland 10
+UK Denmark 6
