@@ -1,4 +1,5 @@
 import csv
+import time
 stafir = ['a','b','c','d','e','f','g']
 afrit = []
 oll_ord = []
@@ -8,7 +9,7 @@ with open('BIN_ordalisti.csv', 'r',encoding='UTF-8', newline='') as file:
         #print(line["orð"])
         oll_ord.append(line["orð"])
         
-'''
+
 afrit = stafir.copy()
 for ord in oll_ord:
     teljari = 0
@@ -23,10 +24,10 @@ for ord in oll_ord:
         if teljari == len(ord):
             print(ord,"Þetta orð er í orðalistanum")
             break
-'''
 
 '''
-prufu_strengur = "aðal"
+
+prufu_strengur = "aðalæ"
 prufu_ord = ['aðalaðdráttarafl','aðalatburður','aðalatkvæ','eitthvað','annað','baðallð']
 for ord in oll_ord:
     if len(ord) > len(prufu_strengur):
@@ -39,7 +40,7 @@ for ord in oll_ord:
             #print(prufu_strengur[:x+1])
 
 '''
-
+'''
 stafroid = ['a','á','b','d','ð','e','é','f','g','h','i','í','j','k','l','m','n','o','ó','p','r','s','t','u','ú','v','x','y','ý','þ','æ','ö']
 prufu_strengur = "ma_ur"
 prufu_ord = ['maður','aðalatburður','magur','eitthvað','annað','baðallð']
@@ -49,4 +50,13 @@ for ord in oll_ord:
             if prufu_strengur.replace('_',stafur) == ord:
                 print(ord)
                 break
-        
+'''
+'''
+for x in oll_ord:
+    if x[0] == "m":
+        print(x)
+        time.sleep(0.1)
+    else:
+        print(x)
+    
+    '''
