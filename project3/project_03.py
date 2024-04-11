@@ -3,7 +3,7 @@
 # Project: <project_03>
 # Acknowledgements: <autopep8>
 
-
+# Næ í öll orðin úr csv skránni í lista
 def get_words():
     all_words = []
     gogn = open('BIN_ordalisti.csv', 'r', encoding='UTF-8', newline='')
@@ -13,13 +13,8 @@ def get_words():
     return (all_words)
 
 
+# Athuga hvort orðið passi við mynstrið
 def word_matches_pattern(word, pattern):
-    if "*" in pattern and pattern[-1] != "*":
-        return "pattern not accepted"
-    for x in pattern:
-        if not x.isalpha() and x != "_" and x != "*":
-            return "pattern not accepted" + x
-
     if len(word) != len(pattern) and pattern[-1] != "*" or len(word) < len(pattern)-1:
         return False
     elif pattern[-1] == "*":
@@ -34,7 +29,7 @@ def word_matches_pattern(word, pattern):
                 return False
     return True
 
-
+# Athuga hvort orðið passi við stafina
 def word_matches_letters(word, input_letters):
     letter_list = []
     for letter_add in input_letters:
@@ -54,11 +49,11 @@ def word_matches_letters(word, input_letters):
             return False
     return False
 
-
+# Fer í gegnum öll orð og athuga hvort þau passi við mynstur, stafi eða bæði
 def get_match_list(letters, pattern):
     match_list = []
     words = get_words()
-    last_word = "ÞeTtAeReKkIoRd"
+    last_word = ""
     for test_word in words:
         test_word = test_word.upper()
         if len(letters) == 0 and len(pattern) > 0:
@@ -75,11 +70,11 @@ def get_match_list(letters, pattern):
                 last_word = test_word
     return match_list
 
-
+# Athuga hvort að stafirnir sem eru settir inn séu leyfilegir
 def allowed_letters(letters):
     return letters.isalpha()
 
-
+# Athuga hvort að mynstrið sem er sett inn sé leyfilegt
 def allowed_patterns(pattern):
     counter = 0
     for x in pattern:
@@ -92,7 +87,7 @@ def allowed_patterns(pattern):
                 return False
     return True
 
-
+# Athuga hvort að það stafirnir og mynstrið virki saman
 def letter_pattern_check(letters, pattern):
     for letter in pattern:
         if letter not in letters and letter != "_" and letter != "*":
@@ -100,6 +95,7 @@ def letter_pattern_check(letters, pattern):
     return True
 
 
+# Valmynd 
 test_pattern = ""
 test_letters = ""
 print("---------- Scrabble solver ----------")
@@ -119,6 +115,7 @@ while True:
     selection = input("Selection: ")
 
     if selection == "1":
+        # Tek inn stafi frá notanda
         while True:
             input_letters = input("Letters: ").upper()
             if allowed_letters(input_letters):
@@ -128,6 +125,7 @@ while True:
                 print("Sorry, try again, this contained letters that are not allowed")
 
     elif selection == "2":
+        # Tek inn mynstur frá notanda
         while True:
             input_pattern = input("Pattern: ").upper()
             if allowed_patterns(input_pattern):
@@ -137,6 +135,7 @@ while True:
                 print("Sorry, try again, this pattern is not allowed")
 
     elif selection == "3":
+        # prenta út orðin í stærðarröð
         matches = get_match_list(test_letters, test_pattern)
         matches.sort(key=len)
         if len(matches) == 0:
