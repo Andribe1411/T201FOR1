@@ -1,0 +1,5 @@
+hammer 100 24
+nails 2 0
+screws 3 0
+drill 1400 11
+screwdriver 120 11

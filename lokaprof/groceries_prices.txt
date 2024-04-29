@@ -1,0 +1,9 @@
+egg 3 24
+apple 7 24
+milk 12 24
+bread 8 24
+orange 6 24
+butter 15 24
+cheese 17 24
+ham 16 24
+banana 10 24

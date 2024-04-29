@@ -1,0 +1,4 @@
+shampoo 23 24
+conditioner 24 24
+soap 12 11
+medicine 123 0

@@ -1,0 +1,11 @@
+jacket 1000 24
+shoes 1420 11
+t-shirt 560 0
+socks 17 24
+hoodie 780 11
+pants 1320 24
+hat 735 11
+raincoat 2830 24
+sweater 1800 11
+shirt 640 24
+shorts 2930 0
